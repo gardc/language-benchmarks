@@ -50,6 +50,10 @@ Summary
 ```
 Which means C# on .NET 9 is surprisingly 1.75 times faster than Rust and 1.97 times faster than Go!
 
+### Disclaimer 
+
+Micro benchmarks like this can be misleading and should be taken with a grain of salt. Real-world performance can vary greatly depending on the specifics of the application and the workload. Always profile your specific use case to determine the best language for your needs. I'm sure Rust can be optimized further to be faster than C# again, but this was the first naive implementations of the matrix multiplication algorithm.
+
 ## 📁 Project Structure
 
 - `go/`: Go implementation
