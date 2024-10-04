@@ -20,7 +20,7 @@ cd ../..
 
 # Run benchmarks
 echo "Running benchmarks..."
-hyperfine --warmup 2 --runs 5 \
+hyperfine --warmup 1 --runs 3 \
     './go/go_matrix' \
     './csharp/csharp_out/csharp' \
     './rust/matrix/target/release/matrix'

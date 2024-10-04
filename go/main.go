@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	size := 1500 // Adjust this size to change runtime
+	size := 2000 // Adjust this size to change runtime
 	matrixA := generateMatrix(size)
 	matrixB := generateMatrix(size)
 	result := multiplyMatrices(matrixA, matrixB, size)

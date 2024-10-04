@@ -5,7 +5,7 @@ This project compares the performance of matrix multiplication implementations i
 ## 🧮 What it does
 
 Each implementation:
-1. Generates two 1500x1500 matrices filled with random double-precision floating-point numbers.
+1. Generates two 2000x2000 matrices filled with random double-precision floating-point numbers.
 2. Multiplies these matrices.
 3. Outputs the value at position [0,0] of the result matrix to prevent compiler optimizations.
 
@@ -32,23 +32,23 @@ Run the `test.sh` script to see the benchmark results. The script will compile e
 ```
 Running benchmarks...
 Benchmark 1: ./go/go_matrix
-  Time (mean ± σ):      4.194 s ±  0.181 s    [User: 4.165 s, System: 0.026 s]
-  Range (min … max):    4.054 s …  4.505 s    5 runs
+  Time (mean ± σ):     20.877 s ±  0.586 s    [User: 20.789 s, System: 0.088 s]
+  Range (min … max):   20.340 s … 21.502 s    3 runs
 
 Benchmark 2: ./csharp/csharp_out/csharp
-  Time (mean ± σ):      3.715 s ±  0.128 s    [User: 3.671 s, System: 0.031 s]
-  Range (min … max):    3.589 s …  3.891 s    5 runs
+  Time (mean ± σ):     10.582 s ±  0.151 s    [User: 10.500 s, System: 0.056 s]
+  Range (min … max):   10.409 s … 10.692 s    3 runs
 
 Benchmark 3: ./rust/matrix/target/release/matrix
-  Time (mean ± σ):      3.602 s ±  0.088 s    [User: 3.575 s, System: 0.020 s]
-  Range (min … max):    3.507 s …  3.746 s    5 runs
+  Time (mean ± σ):     18.525 s ±  0.080 s    [User: 18.466 s, System: 0.048 s]
+  Range (min … max):   18.452 s … 18.610 s    3 runs
 
 Summary
-  ./rust/matrix/target/release/matrix ran
-    1.03 ± 0.04 times faster than ./csharp/csharp_out/csharp
-    1.16 ± 0.06 times faster than ./go/go_matrix
+  ./csharp/csharp_out/csharp ran
+    1.75 ± 0.03 times faster than ./rust/matrix/target/release/matrix
+    1.97 ± 0.06 times faster than ./go/go_matrix
 ```
-Which means Rust is just barely faster than C#, and Go is 1.16 ± 0.06 times slower than Rust. All fast languages!
+Which means C# on .NET 9 is surprisingly 1.75 times faster than Rust and 1.97 times faster than Go!
 
 ## 📁 Project Structure
 

@@ -1,7 +1,7 @@
 use rand::Rng;
 
 fn main() {
-    let size = 1500; // Adjust this size to change runtime
+    let size = 2000; // Adjust this size to change runtime
     let matrix_a = generate_matrix(size);
     let matrix_b = generate_matrix(size);
     let result = multiply_matrices(&matrix_a, &matrix_b, size);

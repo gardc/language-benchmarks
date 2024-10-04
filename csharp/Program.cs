@@ -1,4 +1,4 @@
-﻿const int size = 1500; // Adjust this size to change runtime
+﻿const int size = 2000; // Adjust this size to change runtime
 double[,] matrixA = GenerateMatrix(size);
 double[,] matrixB = GenerateMatrix(size);
 double[,] result = MultiplyMatrices(matrixA, matrixB, size);
