@@ -1,38 +1,52 @@
-﻿const int size = 2000; // Adjust this size to change runtime
-double[,] matrixA = GenerateMatrix(size);
-double[,] matrixB = GenerateMatrix(size);
-double[,] result = MultiplyMatrices(matrixA, matrixB, size);
+﻿// Read matrix size
+int size = int.Parse(File.ReadAllText("matrix_size.txt"));
 
-// Optional: Output a single value to prevent optimizations
-Console.WriteLine("Result[0,0]: " + result[0, 0]);
+// Load matrices from binary files
+double[][] matrixA = LoadMatrix("matrix_a.bin", size);
+double[][] matrixB = LoadMatrix("matrix_b.bin", size);
 
-double[,] GenerateMatrix(int size)
+// Benchmark: Perform matrix multiplication
+double[][] result = MultiplyMatrices(matrixA, matrixB, size);
+
+// Output a value to prevent optimization
+Console.WriteLine("Result[0][0]: " + result[0][0]);
+
+double[][] LoadMatrix(string filename, int size)
 {
-    var rand = new Random();
-    double[,] matrix = new double[size, size];
+    double[][] matrix = new double[size][];
     for (int i = 0; i < size; i++)
     {
-        for (int j = 0; j < size; j++)
-        {
-            matrix[i, j] = rand.NextDouble();
-        }
+        matrix[i] = new double[size];
     }
+
+    byte[] buffer = File.ReadAllBytes(filename);
+    int offset = 0;
+    for (int i = 0; i < size; i++)
+    {
+        Buffer.BlockCopy(buffer, offset, matrix[i], 0, size * sizeof(double));
+        offset += size * sizeof(double);
+    }
+
     return matrix;
 }
 
-double[,] MultiplyMatrices(double[,] a, double[,] b, int size)
+double[][] MultiplyMatrices(double[][] a, double[][] b, int size)
 {
-    double[,] result = new double[size, size];
+    double[][] result = new double[size][];
     for (int i = 0; i < size; i++)
     {
-        for (int j = 0; j < size; j++)
+        result[i] = new double[size];
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        for (int k = 0; k < size; k++)
         {
-            double sum = 0;
-            for (int k = 0; k < size; k++)
+            double a_ik = a[i][k];
+            for (int j = 0; j < size; j++)
             {
-                sum += a[i, k] * b[k, j];
+                result[i][j] += a_ik * b[k][j];
             }
-            result[i, j] = sum;
         }
     }
     return result;

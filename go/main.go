@@ -1,26 +1,49 @@
 package main
 
 import (
+	"bytes"
+	"encoding/binary"
 	"fmt"
-	"math/rand"
+	"os"
+	"strconv"
+	"strings"
 )
 
 func main() {
-	size := 2000 // Adjust this size to change runtime
-	matrixA := generateMatrix(size)
-	matrixB := generateMatrix(size)
+	// Read matrix size
+	sizeData, err := os.ReadFile("matrix_size.txt")
+	if err != nil {
+		panic(err)
+	}
+	size, err := strconv.Atoi(strings.TrimSpace(string(sizeData)))
+	if err != nil {
+		panic(err)
+	}
+
+	// Load matrices from binary files
+	matrixA := loadMatrix("matrix_a.bin", size)
+	matrixB := loadMatrix("matrix_b.bin", size)
+
+	// Benchmark: Perform matrix multiplication
 	result := multiplyMatrices(matrixA, matrixB, size)
 
-	// Optional: Output a single value to prevent optimizations
+	// Output a value to prevent optimization
 	fmt.Println("Result[0][0]:", result[0][0])
 }
 
-func generateMatrix(size int) [][]float64 {
+func loadMatrix(filename string, size int) [][]float64 {
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		panic(err)
+	}
+
 	matrix := make([][]float64, size)
+	buf := bytes.NewReader(data)
 	for i := range matrix {
 		matrix[i] = make([]float64, size)
-		for j := range matrix[i] {
-			matrix[i][j] = rand.Float64()
+		err := binary.Read(buf, binary.LittleEndian, &matrix[i])
+		if err != nil {
+			panic(err)
 		}
 	}
 	return matrix
@@ -33,12 +56,11 @@ func multiplyMatrices(a, b [][]float64, size int) [][]float64 {
 	}
 
 	for i := 0; i < size; i++ {
-		for j := 0; j < size; j++ {
-			sum := 0.0
-			for k := 0; k < size; k++ {
-				sum += a[i][k] * b[k][j]
+		for k := 0; k < size; k++ {
+			a_ik := a[i][k]
+			for j := 0; j < size; j++ {
+				result[i][j] += a_ik * b[k][j]
 			}
-			result[i][j] = sum
 		}
 	}
 	return result
