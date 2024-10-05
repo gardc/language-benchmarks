@@ -1,12 +1,12 @@
 # Language Benchmarks: Matrix Multiplication 🚀
 
-This project compares the performance of matrix multiplication implementations in Go, C#, and Rust. It's designed to benchmark these languages using a common, computationally intensive task in a very simple matter. The benchmark is far from perfect, but it's realistically practical.
+This project compares the performance of matrix multiplication implementations in Go, C#, and Rust. It's designed to benchmark these languages using a common, computationally intensive task in a very simple matter. The benchmark is not from perfect, but it's realistically practical.
 
 ## 🧮 What it does
 
 Each implementation:
 
-1. Uses only standard library.
+1. Uses only standard library and no unsafe code.
 2. Loads two 2000x2000 matrices filled with random double-precision floating-point numbers.
 3. Multiplies these matrices.
 4. Outputs the value at position [0,0] of the result matrix to prevent compiler optimizations.
@@ -57,7 +57,9 @@ Which means C# on .NET 9 is surprisingly 1.37 times faster than Rust and 1.56 ti
 
 Micro benchmarks like this can be misleading and should be taken with a grain of salt. Real-world performance can vary greatly depending on the specifics of the application and the workload. Always profile your specific use case to determine the best language for your needs. I'm sure Rust can be optimized further to be faster than C# again, but this was the first naive implementations of the matrix multiplication algorithm.
 
-It's also worth noting that this benchmark was originally made within an hour so further improvements are needed to actually make the implementations fair, WIP. This is only the first practical implementation I came up with in these three languages. Adding more languages in the future can also be interesting.
+It's also worth noting that this benchmark was originally made within an hour so further improvements are needed to actually make the implementations fair, WIP. Adding more languages in the future can also be interesting.
+
+Also, CPU & memory usage is not taken into account in this benchmark. For future improvement, it would be interesting to add this to the benchmark.
 
 ## 📁 Project Structure
 
