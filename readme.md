@@ -19,6 +19,7 @@ Each implementation:
 - Zig
 - TypeScript (Bun)
 - Clang++ and GCC (G++) for C++
+- Swift
 - Hyperfine (for benchmarking)
 - Python 3 with numpy (for matrix generation)
 
