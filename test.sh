@@ -29,10 +29,26 @@ cargo build --release
 mv ./target/release/matrix ../../bin/rust_matrix
 cd ../..
 
+# Compile zig
+echo "Compiling zig..."
+cd zig/
+zig build -Doptimize=ReleaseFast
+cd ..
+mv ./zig/zig-out/bin/zig ./bin/zig_matrix
+
+# Compile TS with Bun
+echo "Compiling TS with Bun..."
+cd ts/
+bun build ./index.ts --compile --outfile ts_matrix
+cd ..
+mv ./ts/ts_matrix ./bin/ts_matrix
+
 # Run benchmarks
 echo "Running benchmarks..."
 cd bin
-hyperfine --warmup 2 --runs 5 \
+hyperfine --warmup 3 --runs 3 \
     './go_matrix' \
     './csharp_matrix' \
-    './rust_matrix'
+    './rust_matrix' \
+    './zig_matrix' \
+    './ts_matrix'
