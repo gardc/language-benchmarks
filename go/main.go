@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"encoding/binary"
 	"fmt"
 	"os"
@@ -28,38 +27,31 @@ func main() {
 	result := multiplyMatrices(matrixA, matrixB, size)
 
 	// Output a value to prevent optimization
-	fmt.Println("Result[0][0]:", result[0][0])
+	fmt.Println("Result[0]:", result[0])
 }
 
-func loadMatrix(filename string, size int) [][]float64 {
+func loadMatrix(filename string, size int) []float64 {
 	data, err := os.ReadFile(filename)
 	if err != nil {
 		panic(err)
 	}
 
-	matrix := make([][]float64, size)
-	buf := bytes.NewReader(data)
-	for i := range matrix {
-		matrix[i] = make([]float64, size)
-		err := binary.Read(buf, binary.LittleEndian, &matrix[i])
-		if err != nil {
-			panic(err)
-		}
+	matrix := make([]float64, size*size)
+	err = binary.Read(strings.NewReader(string(data)), binary.LittleEndian, matrix)
+	if err != nil {
+		panic(err)
 	}
 	return matrix
 }
 
-func multiplyMatrices(a, b [][]float64, size int) [][]float64 {
-	result := make([][]float64, size)
-	for i := range result {
-		result[i] = make([]float64, size)
-	}
+func multiplyMatrices(a, b []float64, size int) []float64 {
+	result := make([]float64, size*size)
 
 	for i := 0; i < size; i++ {
 		for k := 0; k < size; k++ {
-			a_ik := a[i][k]
+			a_ik := a[i*size+k]
 			for j := 0; j < size; j++ {
-				result[i][j] += a_ik * b[k][j]
+				result[i*size+j] += a_ik * b[k*size+j]
 			}
 		}
 	}

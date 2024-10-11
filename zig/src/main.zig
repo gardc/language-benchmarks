@@ -6,12 +6,15 @@ const Errors = error{
 };
 
 pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    const allocator = gpa.allocator();
-    defer {
-        const deinit_status = gpa.deinit();
-        if (deinit_status == .leak) @panic("Memory leak detected");
-    }
+    // var gpa = std.heap.GeneralPurposeAllocator(.{ .enable_memory_limit = true }){};
+    // const allocator = gpa.allocator();
+    // defer {
+    //     const deinit_status = gpa.deinit();
+    //     if (deinit_status == .leak) @panic("Memory leak detected");
+    // }
+
+    // C Allocator should be faster than GPA due to less checks (?)
+    const allocator = std.heap.c_allocator;
 
     const matrix_size_filename = "matrix_size.txt";
 
@@ -35,6 +38,11 @@ pub fn main() !void {
     // Output a value to prevent optimization
     const stdout = std.io.getStdOut().writer();
     try stdout.print("Result[0][0]: {d}\n", .{result[0]});
+
+    // const stats = gpa.total_requested_bytes;
+    // std.debug.print("Total memory requested: {d} bytes\n", .{stats});
+
+    // get the total allocated memory
 }
 
 fn LoadMatrix(filename: []const u8, size: usize, allocator: std.mem.Allocator) ![]f64 {

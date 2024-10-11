@@ -1,61 +1,51 @@
-﻿// Read matrix size from a file
-int size = int.Parse(File.ReadAllText("matrix_size.txt"));
+﻿using System;
+using System.IO;
+using System.Runtime.InteropServices;
 
-// Load matrices A and B from binary files
-double[][] matrixA = LoadMatrix("matrix_a.bin", size);
-double[][] matrixB = LoadMatrix("matrix_b.bin", size);
-
-// Perform matrix multiplication and store the result
-double[][] result = MultiplyMatrices(matrixA, matrixB, size);
-
-// Output a single value from the result matrix to prevent optimization
-Console.WriteLine("Result[0][0]: " + result[0][0]);
-
-// Function to load a matrix from a binary file
-double[][] LoadMatrix(string filename, int size)
+class Program
 {
-    // Initialize the matrix
-    double[][] matrix = new double[size][];
-    for (int i = 0; i < size; i++)
+    static void Main()
     {
-        matrix[i] = new double[size];
+        // Read matrix size from a file
+        int size = int.Parse(File.ReadAllText("matrix_size.txt"));
+
+        // Load matrices A and B from binary files
+        double[] matrixA = LoadMatrix("matrix_a.bin", size);
+        double[] matrixB = LoadMatrix("matrix_b.bin", size);
+
+        // Perform matrix multiplication and store the result
+        double[] result = MultiplyMatrices(matrixA, matrixB, size);
+
+        // Output a single value from the result matrix to prevent optimization
+        Console.WriteLine($"Result[0]: {result[0]}");
     }
 
-    // Read all bytes from the file
-    byte[] buffer = File.ReadAllBytes(filename);
-    int offset = 0;
-
-    // Copy data from buffer to matrix
-    for (int i = 0; i < size; i++)
+    // Function to load a matrix from a binary file
+    static double[] LoadMatrix(string filename, int size)
     {
-        Buffer.BlockCopy(buffer, offset, matrix[i], 0, size * sizeof(double));
-        offset += size * sizeof(double);
+        byte[] bytes = File.ReadAllBytes(filename);
+        double[] matrix = new double[size * size];
+        Buffer.BlockCopy(bytes, 0, matrix, 0, bytes.Length);
+        return matrix;
     }
 
-    return matrix;
-}
-
-// Function to multiply two matrices
-double[][] MultiplyMatrices(double[][] a, double[][] b, int size)
-{
-    // Initialize the result matrix
-    double[][] result = new double[size][];
-    for (int i = 0; i < size; i++)
+    // Function to multiply two matrices
+    static double[] MultiplyMatrices(double[] a, double[] b, int size)
     {
-        result[i] = new double[size];
-    }
+        double[] result = new double[size * size];
 
-    // Perform matrix multiplication
-    for (int i = 0; i < size; i++)
-    {
-        for (int k = 0; k < size; k++)
+        for (int i = 0; i < size; i++)
         {
-            double a_ik = a[i][k];
-            for (int j = 0; j < size; j++)
+            for (int k = 0; k < size; k++)
             {
-                result[i][j] += a_ik * b[k][j];
+                double a_ik = a[i * size + k];
+                for (int j = 0; j < size; j++)
+                {
+                    result[i * size + j] += a_ik * b[k * size + j];
+                }
             }
         }
+
+        return result;
     }
-    return result;
 }

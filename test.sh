@@ -43,12 +43,34 @@ bun build ./index.ts --compile --outfile ts_matrix
 cd ..
 mv ./ts/ts_matrix ./bin/ts_matrix
 
+# Compile C++ Clang
+echo "Compiling C++..."
+cd cpp/
+clang++ -std=c++17 -Ofast -mtune=native -Wall -Wextra -pedantic -o ../bin/cpp_matrix_clang main.cc
+cd ..
+
+# Compile C++ GCC
+echo "Compiling C++..."
+cd cpp/
+g++ -std=c++20 -Ofast -mtune=native -Wall -Wextra -pedantic -o ../bin/cpp_matrix_gcc main.cc
+cd ..
+
+# Swift
+echo "Compiling Swift..."
+cd swift/
+swiftc -O -whole-module-optimization matrix.swift -o matrix_swift
+cd ..
+mv ./swift/matrix_swift ./bin/swift_matrix
+
 # Run benchmarks
 echo "Running benchmarks..."
 cd bin
-hyperfine --warmup 3 --runs 3 \
+hyperfine --warmup 3 --runs 6 --show-output --export-markdown ../benchmark_results.md \
     './go_matrix' \
     './csharp_matrix' \
     './rust_matrix' \
     './zig_matrix' \
-    './ts_matrix'
+    './ts_matrix' \
+    './cpp_matrix_clang' \
+    './cpp_matrix_gcc' \
+    './swift_matrix' \
