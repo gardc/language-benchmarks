@@ -65,7 +65,7 @@ mv ./swift/matrix_swift ./bin/swift_matrix
 # Run benchmarks
 echo "Running benchmarks..."
 cd bin
-hyperfine --warmup 3 --runs 6 --show-output --export-markdown ../benchmark_results.md \
+hyperfine --warmup 5 --runs 10 --show-output --export-markdown ../benchmark_results.md \
     './go_matrix' \
     './csharp_matrix' \
     './rust_matrix' \
