@@ -1,93 +1,37 @@
 const std = @import("std");
-const fs = std.fs;
+const math = std.math;
 
-const Errors = error{
-    FileSizeMismatch,
-};
-
-pub fn main() !void {
-    // var gpa = std.heap.GeneralPurposeAllocator(.{ .enable_memory_limit = true }){};
-    // const allocator = gpa.allocator();
-    // defer {
-    //     const deinit_status = gpa.deinit();
-    //     if (deinit_status == .leak) @panic("Memory leak detected");
-    // }
-
-    // C Allocator should be faster than GPA due to less checks (?)
-    const allocator = std.heap.c_allocator;
-
-    const matrix_size_filename = "matrix_size.txt";
-
-    // Read matrix size
-    const size_string = try fs.cwd().readFileAlloc(allocator, matrix_size_filename, 1024);
-    defer allocator.free(size_string);
-
-    const size = try std.fmt.parseInt(usize, std.mem.trim(u8, size_string, &std.ascii.whitespace), 10);
-
-    // Load matrices from binary files
-    const matrix_a = try LoadMatrix("matrix_a.bin", size, allocator);
-    defer allocator.free(matrix_a);
-
-    const matrix_b = try LoadMatrix("matrix_b.bin", size, allocator);
-    defer allocator.free(matrix_b);
-
-    // Benchmark: Perform matrix multiplication
-    const result = try MultiplyMatrices(matrix_a, matrix_b, size, allocator);
-    defer allocator.free(result);
-
-    // Output a value to prevent optimization
-    const stdout = std.io.getStdOut().writer();
-    try stdout.print("Result[0][0]: {d}\n", .{result[0]});
-
-    // const stats = gpa.total_requested_bytes;
-    // std.debug.print("Total memory requested: {d} bytes\n", .{stats});
-
-    // get the total allocated memory
-}
-
-fn LoadMatrix(filename: []const u8, size: usize, allocator: std.mem.Allocator) ![]f64 {
-    // Allocate a flat array for the matrix
-    const matrix_len = size * size;
-    const matrix = try allocator.alloc(f64, matrix_len);
-    errdefer allocator.free(matrix);
-
-    // Open the binary file
-    var file = try fs.cwd().openFile(filename, .{});
-    defer file.close();
-
-    // Check if file size matches expected matrix size
-    const file_size = try file.getEndPos();
-    const expected_size = matrix_len * @sizeOf(f64);
-
-    if (file_size != expected_size) {
-        return error.FileSizeMismatch;
+fn isPrime(number: i32) bool {
+    if (number < 2) return false;
+    if (number == 2) return true;
+    if (number % 2 == 0) return false;
+    const sqrt_n = @intFromFloat(@sqrt(@as(f32, @floatFromInt(number))));
+    var i: i32 = 3;
+    while (i <= sqrt_n) : (i += 2) {
+        if (number % i == 0) return false;
     }
-
-    // Read the entire binary file into the matrix
-    const matrix_bytes = std.mem.sliceAsBytes(matrix);
-    try file.reader().readNoEof(matrix_bytes);
-
-    return matrix;
+    return true;
 }
 
-fn MultiplyMatrices(a: []const f64, b: []const f64, size: usize, allocator: std.mem.Allocator) ![]f64 {
-    // Allocate result matrix
-    const matrix_len = size * size;
-    var result = try allocator.alloc(f64, matrix_len);
-    errdefer allocator.free(result);
-
-    // Initialize result to zero
-    @memset(result, 0);
-
-    // Perform matrix multiplication
-    for (0..size) |i| {
-        for (0..size) |k| {
-            const a_ik = a[i * size + k];
-            for (0..size) |j| {
-                result[i * size + j] += a_ik * b[k * size + j];
-            }
+fn nthPrime(n: i32) i32 {
+    var count: i32 = 0;
+    var number: i32 = 1;
+    while (count < n) : (number += 1) {
+        if (isPrime(number)) {
+            count += 1;
         }
     }
+    return number;
+}
 
-    return result;
+pub fn main() !void {
+    const n: i32 = 500000; // Adjust n as needed
+    const stdout = std.io.getStdOut().writer();
+    try stdout.print("{}\n", .{nthPrime(n)});
+}
+
+test "basic test" {
+    try std.testing.expectEqual(nthPrime(1), 2);
+    try std.testing.expectEqual(nthPrime(2), 3);
+    try std.testing.expectEqual(nthPrime(3), 5);
 }

@@ -1,44 +1,35 @@
-use std::str::FromStr;
-use std::io::Read;
-
-fn main() -> std::io::Result<()> {
-    // Read matrix size
-    let size_str = std::fs::read_to_string("matrix_size.txt")?;
-    let size = usize::from_str(size_str.trim()).expect("Invalid size");
-
-    // Load matrices from binary files
-    let matrix_a = load_matrix("matrix_a.bin", size)?;
-    let matrix_b = load_matrix("matrix_b.bin", size)?;
-
-    // Benchmark: Perform matrix multiplication
-    let result = multiply_matrices(&matrix_a, &matrix_b, size);
-
-    // Output a value to prevent optimization
-    println!("Result[0][0]: {}", result[0]);
-
-    Ok(())
-}
-
-fn load_matrix(filename: &str, size: usize) -> std::io::Result<Vec<f64>> {
-    let mut file = std::fs::File::open(filename)?;
-    let mut buffer = vec![0u8; size * size * std::mem::size_of::<f64>()];
-    file.read_exact(&mut buffer)?;
-
-    Ok(buffer
-        .chunks_exact(8)
-        .map(|chunk| f64::from_le_bytes(chunk.try_into().unwrap()))
-        .collect())
-}
-
-fn multiply_matrices(a: &[f64], b: &[f64], size: usize) -> Vec<f64> {
-    let mut result = vec![0.0; size * size];
-    for i in 0..size {
-        for k in 0..size {
-            let a_ik = a[i * size + k];
-            for j in 0..size {
-                result[i * size + j] += a_ik * b[k * size + j];
-            }
+fn is_prime(number: u32) -> bool {
+    if number < 2 {
+        return false;
+    }
+    if number == 2 {
+        return true;
+    }
+    if number % 2 == 0 {
+        return false;
+    }
+    let sqrt = (number as f64).sqrt() as u32;
+    for i in (3..=sqrt).step_by(2) {
+        if number % i == 0 {
+            return false;
         }
     }
-    result
+    true
+}
+
+fn nth_prime(n: usize) -> u32 {
+    let mut count = 0;
+    let mut number = 1;
+    while count < n {
+        number += 1;
+        if is_prime(number) {
+            count += 1;
+        }
+    }
+    number
+}
+
+fn main() {
+    let n = 1_000_000; // Adjust n as needed
+    println!("{}", nth_prime(n));
 }

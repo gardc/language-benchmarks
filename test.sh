@@ -3,11 +3,11 @@
 # Create bin directory if it doesn't exist
 mkdir -p ./bin
 
-# Create Matrix pre-benchmark
-echo "Creating Matrix pre-benchmark..."
-python3 ./create_matrix.py
-mv matrix_size.txt ./bin/
-mv ./*.bin ./bin/
+# # Create Matrix pre-benchmark
+# echo "Creating Matrix pre-benchmark..."
+# python3 ./create_matrix.py
+# mv matrix_size.txt ./bin/
+# mv ./*.bin ./bin/
 
 # Compile Go
 echo "Compiling Go..."
@@ -30,11 +30,11 @@ mv ./target/release/matrix ../../bin/rust_matrix
 cd ../..
 
 # Compile zig
-echo "Compiling zig..."
-cd zig/
-zig build -Doptimize=ReleaseFast
-cd ..
-mv ./zig/zig-out/bin/zig ./bin/zig_matrix
+# echo "Compiling zig..."
+# cd zig/
+# zig build -Doptimize=ReleaseFast
+# cd ..
+# mv ./zig/zig-out/bin/zig ./bin/zig_matrix
 
 # Compile TS with Bun
 echo "Compiling TS with Bun..."
@@ -65,12 +65,12 @@ mv ./swift/matrix_swift ./bin/swift_matrix
 # Run benchmarks
 echo "Running benchmarks..."
 cd bin
-hyperfine --warmup 5 --runs 10 --show-output --export-markdown ../benchmark_results.md \
+hyperfine --warmup 3 --runs 5 --show-output --export-markdown ../benchmark_results.md \
     './go_matrix' \
     './csharp_matrix' \
     './rust_matrix' \
-    './zig_matrix' \
     './ts_matrix' \
     './cpp_matrix_clang' \
     './cpp_matrix_gcc' \
     './swift_matrix' \
+    'python3 ../python/main.py'
