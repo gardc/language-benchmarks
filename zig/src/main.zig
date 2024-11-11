@@ -1,37 +1,37 @@
 const std = @import("std");
 const math = std.math;
+const print = std.debug.print;
 
-fn isPrime(number: i32) bool {
+pub fn is_prime(number: u32) bool {
     if (number < 2) return false;
     if (number == 2) return true;
     if (number % 2 == 0) return false;
-    const sqrt_n = @intFromFloat(@sqrt(@as(f32, @floatFromInt(number))));
-    var i: i32 = 3;
-    while (i <= sqrt_n) : (i += 2) {
+
+    const sqrtN = math.sqrt(number);
+
+    var i: u32 = 3;
+    while (i <= sqrtN) {
         if (number % i == 0) return false;
+        i += 2;
     }
+
     return true;
 }
 
-fn nthPrime(n: i32) i32 {
-    var count: i32 = 0;
-    var number: i32 = 1;
-    while (count < n) : (number += 1) {
-        if (isPrime(number)) {
+pub fn nth_prime(n: u32) u32 {
+    var count: u32 = 0;
+    var number: u32 = 1;
+    while (count < n) {
+        number += 1;
+        if (is_prime(number)) {
             count += 1;
         }
     }
     return number;
 }
 
-pub fn main() !void {
-    const n: i32 = 500000; // Adjust n as needed
-    const stdout = std.io.getStdOut().writer();
-    try stdout.print("{}\n", .{nthPrime(n)});
-}
-
-test "basic test" {
-    try std.testing.expectEqual(nthPrime(1), 2);
-    try std.testing.expectEqual(nthPrime(2), 3);
-    try std.testing.expectEqual(nthPrime(3), 5);
+pub fn main() void {
+    const n = 1_000_000;
+    const nthPrime = nth_prime(n);
+    print("The {}th prime number is: {}\n", .{ n, nthPrime });
 }
