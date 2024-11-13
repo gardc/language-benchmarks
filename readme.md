@@ -63,5 +63,6 @@ This is a unrealistic benchmark and it's done very quickly in order to test lang
 - `cpp/`: C++ implementation
 - `ts/` TypeScript implementation compiled with Bun
 - `python/` Python implementation
+- `swift/` Python implementation
 - `test.sh`: Benchmark script
 - `bin/`: Binary files for each compiled implementation
