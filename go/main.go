@@ -37,6 +37,11 @@ func nthPrime(n int) int {
 }
 
 func main() {
-	n := 1_000_000 // Adjust n as needed
-	fmt.Println(nthPrime(n))
+	start := 999_990
+	end := 1_000_000
+
+	for n := start; n <= end; n++ {
+		result := nthPrime(n)
+		fmt.Printf("The %dth prime number is: %d\n", n, result)
+	}
 }

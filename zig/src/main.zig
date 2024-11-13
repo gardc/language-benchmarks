@@ -10,9 +10,8 @@ pub fn is_prime(number: u32) bool {
     const sqrtN = math.sqrt(number);
 
     var i: u32 = 3;
-    while (i <= sqrtN) {
+    while (i <= sqrtN) : (i += 2) {
         if (number % i == 0) return false;
-        i += 2;
     }
 
     return true;
@@ -31,7 +30,9 @@ pub fn nth_prime(n: u32) u32 {
 }
 
 pub fn main() void {
-    const n = 1_000_000;
-    const nthPrime = nth_prime(n);
-    print("The {}th prime number is: {}\n", .{ n, nthPrime });
+    var i: u32 = 999_990;
+    while (i <= 1_000_000) : (i += 1) {
+        const nthPrime = nth_prime(i);
+        print("The {}th prime number is: {}\n", .{ i, nthPrime });
+    }
 }

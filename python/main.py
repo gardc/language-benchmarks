@@ -23,8 +23,11 @@ def nth_prime(n):
     return number
 
 def main():
-    n = 1_000_000  # Adjust n as needed
-    print(nth_prime(n))
+    start = 999_990
+    end = 1_000_000
+    for n in range(start, end + 1):
+        prime = nth_prime(n)
+        print(f"The {n}th prime number is: {prime}")
 
 if __name__ == "__main__":
     main()

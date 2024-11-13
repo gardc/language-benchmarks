@@ -24,8 +24,10 @@ func nthPrime(_ n: Int) -> Int {
 }
 
 func main() {
-    let n = 1_000_000 // Adjust n as needed
-    print(nthPrime(n))
+    for i in 999_990...1_000_000 {
+        let prime = nthPrime(i)
+        print("The \(i)th prime number is: \(prime)")
+    }
 }
 
 main()

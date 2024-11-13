@@ -20,8 +20,13 @@ function nthPrime(n: number): number {
 }
 
 function main(): void {
-  const n: number = 1_000_000; // Adjust n as needed
-  console.log(nthPrime(n));
+  const start: number = 999_990;
+  const end: number = 1_000_000;
+
+  for (let n = start; n <= end; n++) {
+    const prime = nthPrime(n);
+    console.log(`The ${n}th prime number is: ${prime}`);
+  }
 }
 
 main();

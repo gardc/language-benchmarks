@@ -30,6 +30,7 @@ fn nth_prime(n: usize) -> u32 {
 }
 
 fn main() {
-    let n = 1_000_000; // Adjust n as needed
-    println!("{}", nth_prime(n));
+    for i in 999_990..=1_000_000 {
+        println!("{}th prime: {}", i, nth_prime(i));
+    }
 }

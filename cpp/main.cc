@@ -33,6 +33,9 @@ int nth_prime(int n)
 
 int main()
 {
-    int n = 1'000'000; // Adjust n as needed
-    std::cout << nth_prime(n) << std::endl;
+    for (int n = 999'990; n <= 1'000'000; ++n)
+    {
+        std::cout << "The " << n << "th prime number is: " << nth_prime(n) << std::endl;
+    }
+    return 0;
 }

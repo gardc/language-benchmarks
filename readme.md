@@ -1,27 +1,24 @@
-# Language Benchmarks: Matrix Multiplication 🚀
+# Very simple and useless language Benchmarks 🚀
 
-This project compares the performance of matrix multiplication implementations in several languages I find interesting. It's designed to benchmark these languages using a common, computationally intensive task in a simple manner. The benchmark is not perfect, but it's realistically practical. Optimization is done as far as it's practical, which I think means right up until SIMD is involved.
+This project compares the performance of CPU intensive work in several languages I find interesting. It's designed to benchmark these languages using a common, computationally intensive task in a simple manner. The benchmark is not perfect, but might be realistically practical.
 
 ## 🧮 What it does
 
-Each implementation:
-
-1. Uses only standard library and no unsafe code (Rust).
-2. Loads two 2000x2000 matrices filled with random double-precision floating-point numbers.
-3. Multiplies these matrices.
-4. Outputs the value at position [0,0] of the result matrix to prevent compiler over-optimizations.
+Each implementation finds the nth prime between 999'990 and 1'000'000.
 
 ## 🛠️ Languages and Tools
 
 - Go
+- C# AOT (.NET 9.0)
 - C# (.NET 9.0)
+- F# (.NET 9.0)
 - Rust
 - Zig
 - TypeScript (Bun)
 - Clang++ and GCC (G++) for C++
 - Swift
+- Python 3
 - Hyperfine (for benchmarking)
-- Python 3 with numpy (for matrix generation)
 
 ## 🚀 Getting Started
 
@@ -31,40 +28,40 @@ Each implementation:
 
 ## 📊 Benchmark Results
 
-Run the `test.sh` script to see the benchmark results. The script will compile each implementation and run them 10 times each, with 3 warmup runs.
+Run the `test.sh` script to see the benchmark results for yourself on your machine.
 
 ### My Results:
+
 On MacBook Pro M3 Pro 36GB RAM:
 
 ```
 Summary
-  ./rust_matrix ran
-    1.00 ± 0.00 times faster than ./cpp_matrix_clang
-    1.02 ± 0.02 times faster than ./cpp_matrix_gcc
-    1.04 ± 0.03 times faster than ./zig_matrix
-    3.05 ± 0.12 times faster than ./go_matrix
-    3.51 ± 0.06 times faster than ./ts_matrix
-    4.00 ± 0.07 times faster than ./swift_matrix
-    4.22 ± 0.11 times faster than ./csharp_matrix
+  ./zig_bin ran
+    1.01 ± 0.00 times faster than ./csharp_bin
+    1.02 ± 0.00 times faster than ./go_bin
+    1.07 ± 0.03 times faster than ./cpp_bin_gcc
+    1.07 ± 0.00 times faster than dotnet run --project ../csharp/csharp.csproj -c Release
+    1.09 ± 0.03 times faster than ./cpp_bin_clang
+    1.19 ± 0.03 times faster than ./ts_bin
+    1.29 ± 0.02 times faster than ./swift_bin
+    1.49 ± 0.02 times faster than ./rust_bin
+    3.76 ± 0.06 times faster than dotnet run --project ../fsharp/fsharp.fsproj -c Release
+   43.59 ± 0.16 times faster than python3 ../python/main.py
 ```
-It's basically Rust, Zig and C++ that compete in top tier. What I find surprising is how performant Bun is, it's basically as fast as Go with (subjectively) more ergonomic code utilizing TypeScript.
 
 ### Disclaimer
 
-Micro benchmarks like this can be misleading and should be taken with a grain of salt. Real-world performance can vary greatly depending on the specifics of the application and the workload. Always profile your specific use case to determine the best language for your needs. I'm sure Rust can be optimized further to be faster than C# again, but this was the first naive implementations of the matrix multiplication algorithm.
-
-It's also worth noting that this benchmark was originally made within an hour so further improvements are needed to actually make the implementations fair, WIP. Adding more languages in the future can also be interesting.
-
-Also, CPU & memory usage is not taken into account in this benchmark. For future improvement, it would be interesting to add this to the benchmark.
+This is a unrealistic benchmark and it's done very quickly in order to test languages.
 
 ## 📁 Project Structure
 
 - `go/`: Go implementation
 - `csharp/`: C# implementation
+- `fsharp/`: F# implementation
 - `rust/matrix/`: Rust implementation
 - `zig/`: Zig implementation
 - `cpp/`: C++ implementation
 - `ts/` TypeScript implementation compiled with Bun
+- `python/` Python implementation
 - `test.sh`: Benchmark script
-- `generate_matrix.py`: Python script to generate matrices
-- `bin/`: Binary files for each implementation and the generated 2000x2000 matrices
+- `bin/`: Binary files for each compiled implementation

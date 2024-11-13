@@ -23,5 +23,7 @@ int NthPrime(int n)
     return number;
 }
 
-int n = 1_000_000; // Adjust n as needed
-Console.WriteLine(NthPrime(n));
+for (int n = 999_990; n <= 1_000_000; n++)
+{
+    Console.WriteLine($"The {n}th prime number is: {NthPrime(n)}");
+}

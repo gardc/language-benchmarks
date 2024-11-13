@@ -22,8 +22,7 @@ let nthPrime n =
             else findPrime count nextNumber
     findPrime 0 0
 
-// Set the value for n
-let n = 1_000_000 // Adjust n as needed
-
-// Print the nth prime number
-printfn "%d" (nthPrime n)
+// Loop from 999,990 to 1,000,000 and print the nth prime for each n
+for n in 999_990 .. 1_000_000 do
+    let prime = nthPrime n
+    printfn "The %dth prime number is: %d" n prime
