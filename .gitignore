@@ -1,5 +1,6 @@
 go/go_matrix
 csharp/csharp_out/
+bin-dbg/
 
 # Created by https://www.toptal.com/developers/gitignore/api/csharp,rust,go,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=csharp,rust,go,visualstudiocode
