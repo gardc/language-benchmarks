@@ -8,7 +8,9 @@ fn is_prime(number: u32) -> bool {
     if number % 2 == 0 {
         return false;
     }
+
     let sqrt = (number as f64).sqrt() as u32;
+
     for i in (3..=sqrt).step_by(2) {
         if number % i == 0 {
             return false;
@@ -17,7 +19,7 @@ fn is_prime(number: u32) -> bool {
     true
 }
 
-fn nth_prime(n: usize) -> u32 {
+fn nth_prime(n: u32) -> u32 {
     let mut count = 0;
     let mut number = 1;
     while count < n {

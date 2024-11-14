@@ -12,7 +12,7 @@ Each implementation finds the nth prime between 999'990 and 1'000'000.
 - C# AOT (.NET 9.0)
 - C# (.NET 9.0)
 - F# (.NET 9.0)
-- Rust
+- Rust (Nightly)
 - Zig
 - TypeScript (Bun)
 - Clang++ and GCC (G++) for C++

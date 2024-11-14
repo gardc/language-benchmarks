@@ -2,6 +2,18 @@
 name = "matrix"
 version = "0.1.0"
 edition = "2021"
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[profile.dev]
+opt-level = 0
+
+# https://deterministic.space/high-performance-rust.html
+# https://nnethercote.github.io/perf-book/build-configuration.html
+[profile.release]
+opt-level = 3
+panic = "abort"
+lto = "fat"
+codegen-units = 1
 
 [dependencies]
 rand = "0.8.5"
