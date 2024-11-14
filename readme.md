@@ -36,17 +36,17 @@ On MacBook Pro M3 Pro 36GB RAM:
 
 ```
 Summary
-  ./zig_bin ran
-    1.01 ± 0.00 times faster than ./csharp_bin
-    1.02 ± 0.00 times faster than ./go_bin
-    1.07 ± 0.03 times faster than ./cpp_bin_gcc
-    1.07 ± 0.00 times faster than dotnet run --project ../csharp/csharp.csproj -c Release
-    1.09 ± 0.03 times faster than ./cpp_bin_clang
-    1.19 ± 0.03 times faster than ./ts_bin
-    1.29 ± 0.02 times faster than ./swift_bin
-    1.49 ± 0.02 times faster than ./rust_bin
-    3.76 ± 0.06 times faster than dotnet run --project ../fsharp/fsharp.fsproj -c Release
-   43.59 ± 0.16 times faster than python3 ../python/main.py
+  ./rust_bin ran
+    1.03 ± 0.04 times faster than ./go_bin
+    1.03 ± 0.04 times faster than ./cpp_bin_gcc
+    1.03 ± 0.04 times faster than ./csharp_bin
+    1.04 ± 0.04 times faster than ./cpp_bin_clang
+    1.04 ± 0.04 times faster than ./zig_bin
+    1.10 ± 0.05 times faster than dotnet run --project ../csharp/csharp.csproj -c Release
+    1.19 ± 0.12 times faster than ./ts_bin
+    1.24 ± 0.04 times faster than ./swift_bin
+    3.70 ± 0.12 times faster than dotnet run --project ../fsharp/fsharp.fsproj -c Release
+   42.77 ± 1.35 times faster than python3 ../python/main.py
 ```
 
 ### Disclaimer

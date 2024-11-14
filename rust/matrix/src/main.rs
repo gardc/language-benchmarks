@@ -9,12 +9,15 @@ fn is_prime(number: u32) -> bool {
         return false;
     }
 
-    let sqrt = (number as f64).sqrt() as u32;
+    let sqrt = number.isqrt();
 
-    for i in (3..=sqrt).step_by(2) {
+    // doing this manually since iterators are slow (appaerently)
+    let mut i = 3;
+    while i <= sqrt {
         if number % i == 0 {
             return false;
         }
+        i += 2;
     }
     true
 }

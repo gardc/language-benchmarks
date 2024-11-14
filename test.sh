@@ -71,7 +71,7 @@ mv ./swift/matrix_swift ./bin/swift_bin
 # Run benchmarks
 echo "Running benchmarks..."
 cd bin
-hyperfine --warmup 1 --runs 1 --show-output --export-markdown ../benchmark_results.md \
+hyperfine --warmup 0 --runs 4 --show-output --export-markdown ../benchmark_results.md \
     './go_bin' \
     './csharp_bin' \
     './rust_bin' \
@@ -80,8 +80,6 @@ hyperfine --warmup 1 --runs 1 --show-output --export-markdown ../benchmark_resul
     './cpp_bin_clang' \
     'dotnet run --project ../csharp/csharp.csproj -c Release' \
     './ts_bin' \
-    './swift_bin'
-
-
-#    'dotnet run --project ../fsharp/fsharp.fsproj -c Release' \
-#    'python3 ../python/main.py' \
+    './swift_bin' \
+    'dotnet run --project ../fsharp/fsharp.fsproj -c Release' \
+    'python3 ../python/main.py' \
