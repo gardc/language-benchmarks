@@ -23,10 +23,10 @@ mv ./csharp_out/csharp ../bin/csharp_bin
 cd ..
 
 # Compile F#
-echo "Compiling F#..."
-cd ./fsharp/
-dotnet build -c Release
-cd ..
+# echo "Compiling F#..."
+# cd ./fsharp/
+# dotnet build -c Release
+# cd ..
 
 # Compile Rust
 echo "Compiling Rust..."
@@ -68,6 +68,13 @@ swiftc -O -whole-module-optimization matrix.swift -o matrix_swift
 cd ..
 mv ./swift/matrix_swift ./bin/swift_bin
 
+# Java
+echo "Compiling Java..."
+cd java/
+./gradlew jar
+cd ..
+mv ./java/app/build/libs/app.jar ./bin/java_bin.jar
+
 # Run benchmarks
 echo "Running benchmarks..."
 cd bin
@@ -81,5 +88,6 @@ hyperfine --warmup 0 --runs 4 --show-output --export-markdown ../benchmark_resul
     'dotnet run --project ../csharp/csharp.csproj -c Release' \
     './ts_bin' \
     './swift_bin' \
-    'dotnet run --project ../fsharp/fsharp.fsproj -c Release' \
-    'python3 ../python/main.py' \
+    'java -jar java_bin.jar'
+    
+#    'python3 ../python/main.py' \ # waaaay to slow

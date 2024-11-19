@@ -11,13 +11,14 @@ Each implementation finds the nth prime between 999'990 and 1'000'000.
 - Go
 - C# AOT (.NET 9.0)
 - C# (.NET 9.0)
-- F# (.NET 9.0)
+- F# (.NET 9.0) (not currently included since C# already represents .NET and is faster)
 - Rust (Nightly)
 - Zig
 - TypeScript (Bun)
 - Clang++ and GCC (G++) for C++
 - Swift
 - Python 3
+- Java (OpenJDK 23)
 - Hyperfine (for benchmarking)
 
 ## 🚀 Getting Started
@@ -32,21 +33,23 @@ Run the `test.sh` script to see the benchmark results for yourself on your machi
 
 ### My Results:
 
+👑 **Java** is the fastest of the current implementations
+
 On MacBook Pro M3 Pro 36GB RAM:
 
 ```
 Summary
-  ./rust_bin ran
-    1.03 ± 0.04 times faster than ./go_bin
-    1.03 ± 0.04 times faster than ./cpp_bin_gcc
-    1.03 ± 0.04 times faster than ./csharp_bin
-    1.04 ± 0.04 times faster than ./cpp_bin_clang
-    1.04 ± 0.04 times faster than ./zig_bin
-    1.10 ± 0.05 times faster than dotnet run --project ../csharp/csharp.csproj -c Release
-    1.19 ± 0.12 times faster than ./ts_bin
-    1.24 ± 0.04 times faster than ./swift_bin
-    3.70 ± 0.12 times faster than dotnet run --project ../fsharp/fsharp.fsproj -c Release
-   42.77 ± 1.35 times faster than python3 ../python/main.py
+  java -jar java_bin.jar ran
+    1.04 ± 0.02 times faster than ./rust_bin
+    1.05 ± 0.02 times faster than ./zig_bin
+    1.07 ± 0.02 times faster than ./go_bin
+    1.08 ± 0.03 times faster than ./csharp_bin
+    1.08 ± 0.02 times faster than ./cpp_bin_clang
+    1.09 ± 0.03 times faster than ./cpp_bin_gcc
+    1.14 ± 0.03 times faster than dotnet run --project ../csharp/csharp.csproj -c Release
+    1.17 ± 0.03 times faster than ./ts_bin
+    1.27 ± 0.02 times faster than ./swift_bin
+    ~ 42.77 ± 1.35 times faster than python3 ../python/main.py (so slow I didn't include it in the latest test)
 ```
 
 ### Disclaimer
@@ -64,5 +67,6 @@ This is a unrealistic benchmark and it's done very quickly in order to test lang
 - `ts/` TypeScript implementation compiled with Bun
 - `python/` Python implementation
 - `swift/` Python implementation
+- `java/` Java implementation
 - `test.sh`: Benchmark script
 - `bin/`: Binary files for each compiled implementation
